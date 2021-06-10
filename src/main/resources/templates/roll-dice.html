@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Guess Dice Roll</title>
@@ -9,13 +9,17 @@
   <h4>Please guess what you think this 6 sided dice will roll?</h4>
   <div>
     <ul>
-      <li><a href="/1">1</a></li>
-      <li><a href="/2">2</a></li>
-      <li><a href="/3">3</a></li>
-      <li><a href="/4">4</a></li>
-      <li><a href="/5">5</a></li>
-      <li><a href="/6">6</a></li>
+      <li><a href="/roll-dice/1">1</a></li>
+      <li><a href="/roll-dice/2">2</a></li>
+      <li><a href="/roll-dice/3">3</a></li>
+      <li><a href="/roll-dice/4">4</a></li>
+      <li><a href="/roll-dice/5">5</a></li>
+      <li><a href="/roll-dice/6">6</a></li>
     </ul>
+  </div>
+  <div>
+    <h4>The number rolled was: <span th:text="randomNum"></span></h4>
+    <h1><span th:text="outcome"></span></h1>
   </div>
 </body>
 </html>
