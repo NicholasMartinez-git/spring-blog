@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class GuessDiceRollController {
-    private int randomDiceRoll = (int) (Math.random() * (6 - 1 + 1)) + 1;
 
     @GetMapping("/roll-dice")
     public String guessDiceRoll() {
-        randomDiceRoll = (int) (Math.random() * (6 - 1 + 1)) + 1;
         return "roll-dice";
     }
 
     @GetMapping("/roll-dice/{n}")
     public String userGuess(@PathVariable int n, Model model) {
+        int randomDiceRoll = (int) (Math.random() * (6 - 1 + 1)) + 1;
+        String outcome;
         model.addAttribute("n", n);
         model.addAttribute("randomNum", randomDiceRoll);
-        String outcome;
 
         if (n == randomDiceRoll) {
             outcome = "You won!";
