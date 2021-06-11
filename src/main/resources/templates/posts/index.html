@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>All Posts</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 </head>
 <body>
-
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+        <th:block th:each="post : ${posts}">
+            <tr>
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.body}"></td>
+            </tr>
+        </th:block>
+    </table>
 </body>
 </html>
