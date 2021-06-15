@@ -1,14 +1,13 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.model.Post;
+import com.codeup.springblog.model.User;
 import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UsersRepository;
 import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,9 +72,11 @@ public class PostController {
 
     /* -------------------- Start: For repositories and JPA exercises -------------------- */
     private final PostRepository postDao;
+    private final UsersRepository usersDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UsersRepository usersDao) {
         this.postDao = postDao;
+        this.usersDao = usersDao;
     }
 
     @GetMapping("/posts")
@@ -84,6 +85,21 @@ public class PostController {
         return "posts/index";
     }
 
+    @GetMapping("/posts/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "posts/create";
+    }
+
+    @PostMapping("/posts/create")
+    public String save(@ModelAttribute Post post) {
+        User user = usersDao.getById(1L);
+        post.setOwner(user);
+        postDao.save(post);
+        return "redirect:/posts";
+    }
+
+     // Old Way
     @PostMapping("/posts/edit")
     public String editPost(
             @RequestParam(name = "post_id") long id,

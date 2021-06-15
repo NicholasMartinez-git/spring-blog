@@ -59,4 +59,12 @@ public class Post {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }
