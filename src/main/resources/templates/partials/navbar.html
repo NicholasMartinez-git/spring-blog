@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <nav th:fragment="navbar">
+        <ul>
+            <!-- More links here... -->
+            <li>
+                <a th:href="@{/posts/create}">Create Post</a>
+            </li>
+            <li>
+                <a th:href="@{/sign-up}">Sign Up</a>
+            </li>
+            <li>
+                <a th:href="@{/login}">Login</a>
+            </li>
+            <li>
+                <form th:action="@{/logout}" th:method="post">
+                    <button class="btn-link btn">Logout</button>
+                </form>
+            </li>
 
+        </ul>
+    </nav>
 </body>
 </html>

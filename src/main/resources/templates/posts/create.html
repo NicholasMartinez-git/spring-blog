@@ -6,7 +6,7 @@
 <body>
 
 <div class="mx-5 mt-2">
-    <form action="/posts/create" method="post" th:object="${post}">
+    <form th:action="@{/posts/create}" method="post" th:object="${post}">
         <div class="mb-3">
             <label for="title" class="form-label">Title:</label>
             <input name="title" th:field="*{title}" type="text" class="form-control" id="title" placeholder="Title:">

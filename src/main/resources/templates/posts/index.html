@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/head :: head">
     <title>Home</title>
 </head>
 <body>
-    <header class="text-center bg-pearl">
+    <header class="text-center bg-pearl py-5">
+        <nav th:replace="partials/navbar :: navbar"></nav>
         <p>Springblog</p>
         <h1>"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." -Mike Fowler</h1>
     </header>
@@ -24,7 +25,7 @@
                         <button id="edit-btn" type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Edit
                         </button>
-                        <form action="/posts/delete" method="post">
+                        <form th:action="@{/posts/delete}" method="post">
                             <input type="hidden" name="post_id" th:value="${post.id}">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
@@ -34,7 +35,7 @@
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
-                                <form action="/posts/edit" method="post">
+                                <form th:action="@{/posts/edit}" method="post">
                                     <div class="modal-header">
 <!--                                        <h5 class="modal-title" id="exampleModalLabel"><span th:text="${post.title}"></span></h5>-->
                                         <input type="text" class="form-control" th:value="${post.title}" name="title">
@@ -56,6 +57,14 @@
             </tr>
         </th:block>
     </table>
+
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+
+        User ID: <span th:text="${#authentication.principal.id}"></span>
+        Username: <span th:text="${#authentication.principal.username}"></span>
+        Email: <span th:text="${#authentication.principal.email}"></span>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

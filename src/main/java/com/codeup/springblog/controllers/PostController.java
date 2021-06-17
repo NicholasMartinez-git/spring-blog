@@ -4,7 +4,9 @@ import com.codeup.springblog.model.Post;
 import com.codeup.springblog.model.User;
 import com.codeup.springblog.repositories.PostRepository;
 import com.codeup.springblog.repositories.UsersRepository;
+import com.codeup.springblog.services.EmailService;
 import org.dom4j.rule.Mode;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,10 +75,12 @@ public class PostController {
     /* -------------------- Start: For repositories and JPA exercises -------------------- */
     private final PostRepository postDao;
     private final UsersRepository usersDao;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postDao, UsersRepository usersDao) {
+    public PostController(PostRepository postDao, UsersRepository usersDao, EmailService emailService) {
         this.postDao = postDao;
         this.usersDao = usersDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
@@ -93,25 +97,26 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String save(@ModelAttribute Post post) {
-        User user = usersDao.getById(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setOwner(user);
         postDao.save(post);
+        emailService.prepareAndSend(post, "New post created", post.getDescription());
         return "redirect:/posts";
     }
 
      // Old Way
-    @PostMapping("/posts/edit")
-    public String editPost(
-            @RequestParam(name = "post_id") long id,
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "description") String description
-    ) {
-        Post post = postDao.getById(id);
-        post.setTitle(title);
-        post.setDescription(description);
-        postDao.save(post);
-        return "redirect:/posts";
-    }
+//    @PostMapping("/posts/edit")
+//    public String editPost(
+//            @RequestParam(name = "post_id") long id,
+//            @RequestParam(name = "title") String title,
+//            @RequestParam(name = "description") String description
+//    ) {
+//        Post post = postDao.getById(id);
+//        post.setTitle(title);
+//        post.setDescription(description);
+//        postDao.save(post);
+//        return "redirect:/posts";
+//    }
 
     @PostMapping("/posts/delete")
     public String deletePost(@RequestParam(name = "post_id") long id, Model model) {
