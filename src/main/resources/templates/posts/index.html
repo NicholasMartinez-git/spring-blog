@@ -21,16 +21,17 @@
                 <td th:text="${post.description}"></td>
                 <td>
                     <!-- Button trigger modal -->
-                    <div class="d-flex justify-content-between">
-                        <button id="edit-btn" type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Edit
-                        </button>
-                        <form th:action="@{/posts/delete}" method="post">
-                            <input type="hidden" name="post_id" th:value="${post.id}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div class="d-flex justify-content-between" th:if="${post.owner.username == #authentication.principal.username}">
+                            <button id="edit-btn" type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Edit
+                            </button>
+                            <form th:action="@{/posts/delete}" method="post">
+                                <input type="hidden" name="post_id" th:value="${post.id}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </th:block>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

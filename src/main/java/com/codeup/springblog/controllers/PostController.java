@@ -89,6 +89,7 @@ public class PostController {
         return "posts/index";
     }
 
+
     @GetMapping("/posts/create")
     public String showCreateForm(Model model) {
         model.addAttribute("post", new Post());
